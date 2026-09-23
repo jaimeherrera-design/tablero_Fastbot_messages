@@ -33,7 +33,7 @@ METRIC_COLORS = {
 }
 
 
-st.set_page_config(page_title="FASTBOT MESSAGES", page_icon="▥", layout="wide")
+st.set_page_config(page_title="Fastbot Messages", page_icon="▥", layout="wide")
 st.markdown(
     """
     <style>
@@ -439,7 +439,7 @@ st.markdown(
     <section class="dashboard-banner">
         <div class="banner-content">
             <span class="eyebrow">▥ &nbsp; Analítica de mensajería · IA</span>
-            <h1 class="notranslate" translate="no" lang="en">FASTBOT MESSAGES</h1>
+            <h1 class="notranslate" translate="no" lang="en">Fastbot Messages</h1>
             <p>Monitoreo consolidado &nbsp;|&nbsp; Periodo analizado: <strong>{display_start:%d/%m/%Y} → {display_end:%d/%m/%Y}</strong> &nbsp;|&nbsp; <strong>{len(files)}</strong> CSV consolidado(s) &nbsp;|&nbsp; Último registro: <strong>{latest_filtered_text}</strong></p>
         </div>
         <div class="banner-network" aria-hidden="true">
