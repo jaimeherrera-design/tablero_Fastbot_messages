@@ -19,6 +19,11 @@ COLORS = {
     "violet": "#C38BFA",
     "grid": "#253047",
 }
+CHART_SIGNAL_COLORS = {
+    "mint": "#00F5A8",
+    "amber": "#FFC400",
+    "red": "#FF244E",
+}
 METRIC_LABELS = {
     "mensajes_enviados": "Enviados",
     "mensajes_leidos": "Leídos",
@@ -41,15 +46,27 @@ st.markdown(
     :root { color-scheme: dark; }
     .stApp {
         background:
-            linear-gradient(rgba(12,17,28,.95), rgba(12,17,28,.99)),
-            repeating-linear-gradient(90deg, transparent 0, transparent 79px, #1b263b 80px),
-            #0c111c;
+            radial-gradient(circle at 82% -12%, rgba(0,174,147,.14), transparent 30%),
+            #020606;
         color: #edf3fc;
         font-family: 'DM Sans', sans-serif;
     }
     h1, h2, h3 { font-family: 'Space Grotesk', sans-serif !important; letter-spacing: 0 !important; }
-    [data-testid="stHeader"] { background: #0c111c; }
-    [data-testid="stSidebar"] { background: #101725; border-right: 1px solid #253047; }
+    .block-container { padding-top: 1.9rem; }
+    [data-testid="stHeader"] { background: #020606; }
+    [data-testid="stSidebar"] { background: #070d10; border-right: 1px solid #1b2c31; }
+    [data-testid="stSidebar"] h2,
+    [data-testid="stSidebar"] [data-testid="stMarkdownContainer"] p,
+    [data-testid="stSidebar"] [data-testid="stMarkdownContainer"] strong,
+    [data-testid="stWidgetLabel"] p {
+        color: #ffffff !important;
+    }
+    [data-testid="stWidgetLabel"] p {
+        font-weight: 700 !important;
+    }
+    [role="radiogroup"][aria-label="Fechas"] [role="radio"][aria-checked="false"] p {
+        color: #9aa4ad !important;
+    }
     [data-testid="stSidebarCollapseButton"] button,
     button[data-testid="stExpandSidebarButton"] {
         width: 38px;
@@ -78,18 +95,19 @@ st.markdown(
         position: relative;
         overflow: hidden;
         min-height: 220px;
-        margin-bottom: 20px;
-        padding: 34px 38px;
-        border: 1px solid #1f3432;
+        margin-bottom: 26px;
+        padding: 28px 48px;
+        border: 1px solid #183d3a;
         border-radius: 18px;
         background:
-            radial-gradient(circle at 78% 42%, rgba(20,94,91,.16), transparent 24%),
-            linear-gradient(90deg, #020607 0%, #03090a 58%, #061312 100%);
+            radial-gradient(circle at 89% 30%, rgba(0,194,165,.14), transparent 21%),
+            linear-gradient(90deg, #020606 0%, #020707 58%, #071615 100%);
+        box-shadow: inset 0 0 0 1px rgba(0,214,177,.03);
     }
     .banner-content { position: relative; z-index: 2; max-width: 76%; }
-    .dashboard-banner .eyebrow { color: #25ebc3; font-size: .78rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; }
-    .dashboard-banner h1 { margin: 13px 0 8px !important; color: #f5fbfa; font-size: 44px !important; font-weight: 700; line-height: 1.05; }
-    .dashboard-banner p { margin: 0; color: #c4cccf; font-size: 1rem; }
+    .dashboard-banner .eyebrow { color: #21e0bf; font-size: .72rem; font-weight: 700; letter-spacing: .3em; text-transform: uppercase; }
+    .dashboard-banner h1 { margin: 28px 0 18px !important; color: #f8fbfa; font-size: clamp(2.65rem, 3.8vw, 3.35rem) !important; font-weight: 700; line-height: 1.02; white-space: nowrap; }
+    .dashboard-banner p { max-width: 900px; margin: 0; color: #d3d8dc; font-size: 1.06rem; font-weight: 500; line-height: 1.55; }
     .dashboard-banner strong { color: #50e3c2; }
     .banner-network { position: absolute; z-index: 1; inset: 0 0 0 62%; opacity: .9; }
     .banner-node, .banner-edge { position: absolute; display: block; }
@@ -108,52 +126,99 @@ st.markdown(
     .be7 { left: 9%; top: 15%; width: 68%; transform: rotate(52deg); }
     .kpi-grid {
         display: grid;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: 12px;
-        margin: 2px 0 24px;
+        grid-template-columns: repeat(7, minmax(0, 1fr));
+        gap: 14px;
+        margin: 14px 0 46px;
     }
     .kpi-card {
         overflow: hidden;
         min-width: 0;
-        min-height: 122px;
-        padding: 15px 16px;
-        border: 1px solid #29364d;
-        border-top: 3px solid var(--accent);
-        border-radius: 8px;
-        background: linear-gradient(145deg, #162132, #0f1725);
+        min-height: 118px;
+        padding: 17px 13px 15px;
+        border: 1px solid #1b2a32;
+        border-radius: 12px;
+        background: linear-gradient(180deg, #0b1116 0%, #080d11 100%);
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.025);
     }
     .kpi-head { display: flex; min-width: 0; align-items: center; justify-content: space-between; gap: 10px; }
-    .kpi-label { min-width: 0; overflow: hidden; color: #aebbd0; font-size: .78rem; font-weight: 700; text-overflow: ellipsis; white-space: nowrap; }
+    .kpi-label { min-width: 0; overflow: hidden; color: #96a5b7; font-size: .78rem; font-weight: 700; text-overflow: ellipsis; white-space: nowrap; }
     .kpi-icon {
-        display: grid;
-        flex: 0 0 36px;
-        width: 36px;
-        height: 36px;
-        overflow: hidden;
-        place-items: center;
-        border: 1px solid color-mix(in srgb, var(--accent) 42%, transparent);
-        border-radius: 8px;
-        background: color-mix(in srgb, var(--accent) 12%, transparent);
+        display: block;
+        flex: 0 0 auto;
+        width: auto;
+        height: auto;
+        overflow: visible;
+        border: 0;
+        border-radius: 0;
+        background: transparent;
         color: var(--accent);
         font-family: 'Space Grotesk', sans-serif;
-        font-size: 22px;
-        font-weight: 600;
+        font-size: 1.7rem;
+        font-weight: 700;
         font-style: normal;
-        line-height: 1;
+        line-height: .9;
         white-space: nowrap;
     }
     .kpi-value {
-        margin-top: 21px;
+        margin-top: 18px;
         overflow: hidden;
-        color: #f4f8ff;
+        color: var(--accent);
         font-family: 'Space Grotesk', sans-serif;
-        font-size: clamp(1.45rem, 2vw, 2.1rem);
-        font-weight: 600;
+        font-size: clamp(1.15rem, 1.35vw, 1.62rem);
+        font-weight: 700;
         white-space: nowrap;
     }
-    .stTabs [data-baseweb="tab-list"] { gap: 8px; border-bottom: 1px solid #29364d; }
-    .stTabs [data-baseweb="tab"] { height: 48px; color: #9ba8bd; }
-    .stTabs [aria-selected="true"] { color: #edf3fc !important; border-bottom: 2px solid #50e3c2; }
+    .kpi-subtext { margin-top: 7px; color: #6f8090; font-size: .82rem; font-weight: 700; white-space: nowrap; }
+    .section-label { margin: 0 0 20px; color: #7d8b9d; font-size: .78rem; font-weight: 800; letter-spacing: .36em; text-transform: uppercase; }
+    .stTabs [data-baseweb="tab-list"],
+    [role="tablist"] {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 26px;
+        align-items: center;
+        min-height: 92px;
+        margin: 20px 0 28px;
+        padding: 16px 28px;
+        border: 1px solid #2a3946;
+        border-radius: 18px;
+        background: #05090c;
+        box-shadow: 0 16px 38px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.025);
+    }
+    .stTabs [data-baseweb="tab"],
+    [role="tab"] {
+        justify-content: center;
+        height: 58px;
+        padding: 0 10px;
+        color: #8795aa;
+        border-bottom: 0 !important;
+        font-size: 1.2rem;
+    }
+    .stTabs [data-baseweb="tab"] p,
+    [role="tab"] p {
+        margin: 0;
+        color: inherit !important;
+        font-size: 1.18rem;
+        font-weight: 500;
+        letter-spacing: 0;
+        white-space: nowrap;
+    }
+    .stTabs [aria-selected="true"],
+    [role="tab"][aria-selected="true"] { position: relative; color: #f5fbff !important; border-bottom: 0 !important; }
+    .stTabs [aria-selected="true"] p,
+    [role="tab"][aria-selected="true"] p { color: #f3fbff !important; }
+    .stTabs [aria-selected="true"]::after,
+    [role="tab"][aria-selected="true"]::after {
+        content: "✓";
+        display: inline-block;
+        margin-left: 32px;
+        color: #20dfbd;
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 1.9rem;
+        font-weight: 700;
+        line-height: 1;
+    }
+    .stTabs [data-baseweb="tab-highlight"] { display: none; background: transparent; }
+    [role="tab"] .react-aria-SelectionIndicator { display: none !important; }
     .matrix-shell { overflow: auto; max-height: 430px; border: 1px solid #29364d; border-radius: 8px; }
     table.kpi-matrix { width: 100%; border-collapse: collapse; background: #070b11; font-size: .8rem; }
     table.kpi-matrix th { position: sticky; top: 0; padding: 10px; background: #0d1522 !important; color: #fff !important; text-align: center; }
@@ -167,12 +232,13 @@ st.markdown(
     .insight-status { color: var(--signal); font-size: .68rem; font-weight: 700; text-transform: uppercase; }
     .insight strong { display: block; margin: 13px 0 7px; color: #f4f8ff; font-family: 'Space Grotesk'; }
     .insight p { margin: 0; color: #aab5c7; font-size: .88rem; line-height: 1.45; }
-    @media (max-width: 1000px) { .kpi-grid, .insight-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 1260px) { .kpi-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+    @media (max-width: 1000px) { .insight-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
     @media (max-width: 600px) {
         .kpi-grid, .insight-grid { grid-template-columns: 1fr; }
         .dashboard-banner { min-height: 210px; padding: 24px 20px; border-radius: 12px; }
         .banner-content { max-width: 100%; }
-        .dashboard-banner h1 { font-size: 28px !important; }
+        .dashboard-banner h1 { font-size: 28px !important; white-space: normal; }
         .dashboard-banner p { max-width: 88%; font-size: .84rem; line-height: 1.5; }
         .banner-network { inset: 40% -15% 0 42%; opacity: .32; }
     }
@@ -203,7 +269,7 @@ def style_figure(figure: go.Figure, height: int = 390) -> go.Figure:
         height=height,
         margin=dict(l=12, r=12, t=50, b=12),
         paper_bgcolor="rgba(0,0,0,0)",
-        plot_bgcolor="rgba(19,28,44,.76)",
+        plot_bgcolor="rgba(0,0,0,0)",
         font=dict(family="DM Sans", color="#dfe7f3"),
         title_font=dict(family="Space Grotesk", size=17, color="#FFFFFF"),
         legend_title_text="",
@@ -479,9 +545,10 @@ card_html = "".join(
     f'<article class="kpi-card" style="--accent:{color}"><div class="kpi-head"><span class="kpi-label">{label}</span><span class="kpi-icon" title="{label}" aria-label="{label}">{icon}</span></div><div class="kpi-value">{value}</div></article>'
     for label, value, icon, color in cards
 )
+st.markdown('<p class="section-label">Indicadores clave de gestión</p>', unsafe_allow_html=True)
 st.markdown(f'<section class="kpi-grid">{card_html}</section>', unsafe_allow_html=True)
 
-timeline_tab, quality_tab, insights_tab = st.tabs(["Evolución y variaciones", "Calidad y mapas de calor", "Insights"])
+timeline_tab, quality_tab, insights_tab = st.tabs(["📊 Evolución y variaciones", "👩‍💼 Calidad y mapas de calor", "💡 Insights"])
 
 with timeline_tab:
     control_left, control_right = st.columns(2)
@@ -508,9 +575,9 @@ with timeline_tab:
         if period_label == "Mes":
             monthly_average = float(timeline[selected_metric].mean())
             bar_colors = [
-                COLORS["mint"] if value > monthly_average * 1.05
-                else COLORS["red"] if value < monthly_average * 0.95
-                else COLORS["amber"]
+                CHART_SIGNAL_COLORS["mint"] if value > monthly_average * 1.05
+                else CHART_SIGNAL_COLORS["red"] if value < monthly_average * 0.95
+                else CHART_SIGNAL_COLORS["amber"]
                 for value in timeline[selected_metric]
             ]
             volume_chart = px.bar(
@@ -522,7 +589,8 @@ with timeline_tab:
             )
             volume_chart.update_traces(
                 marker_color=bar_colors,
-                marker_line_color=bar_colors,
+                marker_line_width=0,
+                opacity=.98,
                 textposition="outside",
                 cliponaxis=False,
             )
@@ -600,10 +668,19 @@ with timeline_tab:
             text=[f"{value:+.2f}%" for value in variation_data["variacion"]],
             title="Variación vs. período anterior (%)",
             color="variacion",
-            color_continuous_scale=[[0, COLORS["red"]], [.5, COLORS["amber"]], [1, COLORS["mint"]]],
+            color_continuous_scale=[
+                [0, CHART_SIGNAL_COLORS["red"]],
+                [.5, CHART_SIGNAL_COLORS["amber"]],
+                [1, CHART_SIGNAL_COLORS["mint"]],
+            ],
             color_continuous_midpoint=0,
         )
-        variation_chart.update_traces(textposition="outside", cliponaxis=False)
+        variation_chart.update_traces(
+            marker_line_width=0,
+            opacity=.98,
+            textposition="outside",
+            cliponaxis=False,
+        )
         variation_chart.update_layout(coloraxis_showscale=False)
         variation_chart.update_yaxes(ticksuffix="%")
         if period_label == "Mes":
@@ -673,8 +750,8 @@ with quality_tab:
     rate_chart.update_layout(legend=dict(font=dict(color="#FFFFFF"), title_font=dict(color="#FFFFFF")))
     st.plotly_chart(style_figure(rate_chart, 420), use_container_width=True)
 
-    favorable_heatmap_scale = [[0, "#E05260"], [0.5, "#F2C94C"], [1, "#22C55E"]]
-    failure_heatmap_scale = [[0, "#22C55E"], [0.5, "#F2C94C"], [1, "#E05260"]]
+    favorable_heatmap_scale = [[0, "#241322"], [0.45, "#12324f"], [1, "#00a878"]]
+    failure_heatmap_scale = [[0, "#063f34"], [0.45, "#6a4a08"], [1, "#b4233f"]]
     st.plotly_chart(
         build_heatmap(
             filtered,
